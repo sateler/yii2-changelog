@@ -79,10 +79,7 @@ class ChangeLogBehavior extends Behavior
         $pk = $this->getPkValue();
         
         foreach($this->dirtyAttributes as $attribute) {
-            if(in_array($attribute, $this->ignore)) {
-                continue;
-            }
-            if(ArrayHelper::getValue($this->old_values, $attribute) != ArrayHelper::getValue($this->new_values, $attribute)) {
+            if($this->checkAttributeChanged($attribute)) {
                 $changeLog = new Changelog([
                     'change_uuid' => $uuid,
                     'change_type' => $change_type,
@@ -97,6 +94,25 @@ class ChangeLogBehavior extends Behavior
                 $changeLog->save();
             }
         }
+    }
+
+    private function checkAttributeChanged($attribute)
+    {
+        if(in_array($attribute, $this->ignore)) {
+            return false;
+        }
+        $old_value = ArrayHelper::getValue($this->old_values, $attribute);
+        $new_value = ArrayHelper::getValue($this->new_values, $attribute);
+        if($old_value != $new_value) {
+            return true;
+        }
+        if(is_null($old_value) && !is_null($new_value)) {
+            return true;
+        }
+        if(!is_null($old_value) && is_null($new_value)) {
+            return true;
+        }
+        return false;
     }
     
     private static function sanitizeValue($value)
