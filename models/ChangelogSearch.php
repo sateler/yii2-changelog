@@ -13,12 +13,9 @@ use DateTimeZone;
  */
 class ChangelogSearch extends Changelog
 {
-//    public $date_range;
-//    public $date_start;
-//    public $date_end;
     public $date_range;
     public $date_start;
-    public $date_end = '2017-12-30';
+    public $date_end;
     
     /**
      * @inheritdoc
@@ -39,6 +36,13 @@ class ChangelogSearch extends Changelog
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+    
+    public function init()
+    {
+        parent::init();
+        $today = new DateTime("now", new DateTimeZone("America/Santiago"));
+        $this->date_end = $today->format("Y-m-d");
     }
 
     /**

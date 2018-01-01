@@ -75,6 +75,6 @@ class Changelog extends \yii\db\ActiveRecord
 
     public function getChange_type_name()
     {
-        return ArrayHelper::getValue(self::$types, $this->type, $this->type);
+        return ArrayHelper::getValue(self::$types, $this->change_type, $this->change_type);
     }
 }

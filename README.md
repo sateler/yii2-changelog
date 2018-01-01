@@ -47,7 +47,10 @@ Once installed, enable changelog for selected models by adding the following con
 public function behaviors()
 {
     return [
-        \sateler\changelog\ChangeLogBehavior::className(),
+        [
+            'class' => \sateler\changelog\ChangeLogBehavior::className(),
+            'ignore' => [], // ignore changes on listed columns
+        ],
         ...
     ];
 }
@@ -62,6 +65,7 @@ return [
     'controllerMap' => [
         'changelog' => [
             'class' => 'sateler\changelog\controllers\ChangelogController',
+            'viewPath' => '@vendor/sateler/yii2-changelog/views/changelog',
         ]
     ],
 ];

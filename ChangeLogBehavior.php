@@ -26,6 +26,8 @@ class ChangeLogBehavior extends Behavior
     private $old_values = [];
     private $new_values = [];
     
+    public $ignore = [];
+    
     public function events()
     {
         return [
@@ -77,18 +79,23 @@ class ChangeLogBehavior extends Behavior
         $pk = $this->getPkValue();
         
         foreach($this->dirtyAttributes as $attribute) {
-            $changeLog = new Changelog([
-                'change_uuid' => $uuid,
-                'change_type' => $change_type,
-                'created_at' => $time,
-                'user_id' => Yii::$app->user->id,
-                'table_name' => $this->owner->tableName(),
-                'column_name' => $attribute,
-                'row_id' => $pk,
-                'old_value' => self::sanitizeValue(ArrayHelper::getValue($this->old_values, $attribute)),
-                'new_value' => self::sanitizeValue(ArrayHelper::getValue($this->new_values, $attribute)),
-            ]);
-            $changeLog->save();
+            if(in_array($attribute, $this->ignore)) {
+                continue;
+            }
+            if(ArrayHelper::getValue($this->old_values, $attribute) != ArrayHelper::getValue($this->new_values, $attribute)) {
+                $changeLog = new Changelog([
+                    'change_uuid' => $uuid,
+                    'change_type' => $change_type,
+                    'created_at' => $time,
+                    'user_id' => Yii::$app->user->id,
+                    'table_name' => $this->owner->tableName(),
+                    'column_name' => $attribute,
+                    'row_id' => $pk,
+                    'old_value' => self::sanitizeValue(ArrayHelper::getValue($this->old_values, $attribute)),
+                    'new_value' => self::sanitizeValue(ArrayHelper::getValue($this->new_values, $attribute)),
+                ]);
+                $changeLog->save();
+            }
         }
     }
     
