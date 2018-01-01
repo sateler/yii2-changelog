@@ -1,0 +1,24 @@
+{
+    "name": "sateler/yii2-changelog",
+    "description": "Yii2 behavior for storing model/table changelogs",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","changelog"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ricardo Sateler",
+            "email": "rsateler@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "^2.0.10",
+        "yii2tech/csv-grid": "^1.0",
+        "kartik-v/yii2-date-range": "^1.6.8",
+        "ramsey/uuid": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "sateler\\changelog\\": ""
+        }
+    }
+}
