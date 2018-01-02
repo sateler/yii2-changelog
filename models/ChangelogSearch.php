@@ -71,6 +71,7 @@ class ChangelogSearch extends Changelog
                     'created_at',
                     'user_id',
                     'table_name',
+                    $grouped?'':'column_name',
                     'row_id',
                 ]
             ],
@@ -82,15 +83,15 @@ class ChangelogSearch extends Changelog
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'change_uuid' => $this->change_uuid,
+            'change_type' => $this->change_type,
+            'table_name' => $this->table_name,
+            'column_name' => $this->column_name,
             'user_id' => $this->user_id,
             'row_id' => $this->row_id,
         ]);
 
-        $query->andFilterWhere(['like', 'change_uuid', $this->change_uuid])
-            ->andFilterWhere(['like', 'change_type', $this->change_type])
-            ->andFilterWhere(['like', 'table_name', $this->table_name])
-            ->andFilterWhere(['like', 'column_name', $this->column_name])
-            ->andFilterWhere(['like', 'old_value', $this->old_value])
+        $query->andFilterWhere(['like', 'old_value', $this->old_value])
             ->andFilterWhere(['like', 'new_value', $this->new_value]);
         
         $this->filterDates($query);
