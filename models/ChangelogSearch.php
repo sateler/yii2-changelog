@@ -5,8 +5,9 @@ namespace sateler\changelog\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
+use DateInterval;
 
 /**
  * ChangelogSearch represents the model behind the search form about `common\models\Changelog`.
@@ -41,8 +42,9 @@ class ChangelogSearch extends Changelog
     public function init()
     {
         parent::init();
-        $today = new DateTime("now", new DateTimeZone("America/Santiago"));
+        $today = new DateTimeImmutable("now", new DateTimeZone("America/Santiago"));
         $this->date_end = $today->format("Y-m-d");
+        $this->date_start = $today->sub(new DateInterval("P6D"))->format("Y-m-d");
     }
 
     /**
@@ -113,11 +115,11 @@ class ChangelogSearch extends Changelog
     {
         $date_start = $date_end = null;
         if($this->date_start) {
-            $date_start = new DateTime($this->date_start." 00:00:00", new DateTimeZone("America/Santiago"));
+            $date_start = new DateTimeImmutable($this->date_start." 00:00:00", new DateTimeZone("America/Santiago"));
             $query->andWhere(['>=', 'created_at', $date_start->getTimestamp()]);
         }
         if($this->date_end) {
-            $date_end = new DateTime($this->date_end." 23:59:59", new DateTimeZone("America/Santiago"));
+            $date_end = new DateTimeImmutable($this->date_end." 23:59:59", new DateTimeZone("America/Santiago"));
             $query->andWhere(['<=', 'created_at', $date_end->getTimestamp()]);
         }
     }
