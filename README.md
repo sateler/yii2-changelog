@@ -66,6 +66,11 @@ return [
         'changelog' => [
             'class' => 'sateler\changelog\controllers\ChangelogController',
             'viewPath' => '@vendor/sateler/yii2-changelog/views/changelog',
+            // Optional: if set, it's used in the views to create the html link for the record.
+            'urlCreator' => function ($table_name, $row_id) {
+                $table_name = \yii\helpers\Html::encode(str_replace('_', '-', $table_name));
+                return yii\helpers\Url::to(["$table_name/view", 'id' => $row_id]);
+            },
         ]
     ],
 ];

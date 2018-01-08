@@ -24,7 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'table_name',
             'column_name',
-            'row_id',
+            [
+                'attribute' => 'row_id',
+                'format' => 'raw',
+                'value' => $urlCreator?Html::a($model->row_id, call_user_func($urlCreator, $model->table_name, $model->row_id)):$model->row_id,
+            ],
             'old_value',
             'new_value',
         ],

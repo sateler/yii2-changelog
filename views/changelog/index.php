@@ -73,7 +73,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'user_id',
             'table_name',
-            'row_id',
+            [
+                'attribute' => 'row_id',
+                'format' => 'raw',
+                'value' => function($model) use ($urlCreator) {
+                    return $urlCreator?Html::a($model->row_id, call_user_func($urlCreator, $model->table_name, $model->row_id)):$model->row_id;
+                }
+            ],
             [
                 'attribute' => 'column_name',
                 'visible' => !$grouped,

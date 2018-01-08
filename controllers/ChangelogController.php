@@ -16,6 +16,9 @@ use yii2tech\csvgrid\CsvGrid;
  */
 class ChangelogController extends Controller
 {
+    /** @var callable|null If custom url is needed. Parameters are `$table_name`, `$row_id` */
+    public $urlCreator = null;
+
     public function behaviors()
     {
         return [
@@ -50,6 +53,7 @@ class ChangelogController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'grouped' => $grouped,
+            'urlCreator' => $this->urlCreator,
         ]);
     }
 
@@ -101,6 +105,7 @@ class ChangelogController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'urlCreator' => $this->urlCreator,
         ]);
     }
 
