@@ -38,14 +38,6 @@ class ChangelogSearch extends Changelog
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
-    
-    public function init()
-    {
-        parent::init();
-        $today = new DateTimeImmutable("now", new DateTimeZone("America/Santiago"));
-        $this->date_end = $today->format("Y-m-d");
-        $this->date_start = $today->sub(new DateInterval("P6D"))->format("Y-m-d");
-    }
 
     /**
      * Creates data provider instance with search query applied
