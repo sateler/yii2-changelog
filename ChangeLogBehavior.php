@@ -127,7 +127,9 @@ class ChangeLogBehavior extends Behavior
     private function getPkValue()
     {
         $keys = $this->owner->primaryKey();
-        $values = array_values(ArrayHelper::filter($this->owner, $keys));
+        $values = array_map(function($pk_component) {
+            return ArrayHelper::getValue($this->owner, $pk_component);
+        }, $keys);
         return implode("|", $values);
     }
 }
