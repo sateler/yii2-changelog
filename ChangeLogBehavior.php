@@ -84,7 +84,7 @@ class ChangeLogBehavior extends Behavior
                     'change_uuid' => $uuid,
                     'change_type' => $change_type,
                     'created_at' => $time,
-                    'user_id' => Yii::$app->user->id,
+                    'user_id' => Yii::$app->has('session')?(Yii::$app->user->id??null):null,
                     'table_name' => $this->owner->tableName(),
                     'column_name' => $attribute,
                     'row_id' => $pk,
